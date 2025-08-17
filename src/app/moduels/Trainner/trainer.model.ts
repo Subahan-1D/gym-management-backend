@@ -35,6 +35,7 @@ const TrainerSchema = new Schema<TTrainer, TrainerModel>(
     },
     {
         timestamps: true,
+        versionKey: false,
         toJSON: {
             virtuals: true
         }
