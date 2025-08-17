@@ -11,7 +11,7 @@ const startServer = async () => {
     await mongoose.connect(envVars.mongodb_uri);
     console.log("Connected to DB!");
     server = app.listen(envVars.port, () => {
-      console.log(`Server is listening port ${envVars.port}`);
+      console.log(`gym management server is listening port ${envVars.port}`);
     });
   } catch (error) {
     console.log(error);
@@ -61,16 +61,3 @@ process.on("SIGINT", () => {
   }
   process.exit(1);
 });
-// unhandled rejection error
-// Promise.reject(new Error("I forgot catch this promise"));
-
-// uncaught rejection error
-// throw new Error("I forgot to handle this local error");
-
-// signal termination sigterm
-
-/**
- * unhandled rejection error
- * uncaught rejection error
- * signal termination sigterm
- * */
