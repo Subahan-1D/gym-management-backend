@@ -5,6 +5,7 @@ interface EnvConfig {
   port: string;
   mongodb_uri: string;
   node_env: "development" | "production";
+  BCRYPT_SALT_ROUND: string;
 }
 
 const loadEnvVariables = (): EnvConfig => {
@@ -12,6 +13,7 @@ const loadEnvVariables = (): EnvConfig => {
     "port",
     "mongodb_uri",
     "node_env",
+    "BCRYPT_SALT_ROUND",
   ];
 
   requiredEnvVariables.forEach((key) => {
@@ -23,6 +25,7 @@ const loadEnvVariables = (): EnvConfig => {
     port: process.env.PORT as string,
     mongodb_uri: process.env.MONGODB_URI as string,
     node_env: process.env.NODE_ENV as "development" | "production",
+    BCRYPT_SALT_ROUND: process.env.BCRYPT_SALT_ROUND as string,
   };
 };
 export const envVars = loadEnvVariables();
