@@ -7,4 +7,4 @@ export const USER_ROLE = {
     trainee: 'trainee'
 } as const;
 
-export const UserRole: TUserRole[] = ['admin', 'trainer', 'trainee'];
+export const UserRole: TUserRole[] = ['admin', 'trainer', 'trainee'] as const;
