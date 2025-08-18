@@ -1,218 +1,424 @@
-# Gym Class Scheduling & Membership Management System
+# Gym Class Scheduling and Membership Management System
 
-A robust and modular **Gym Management System** designed to efficiently handle class scheduling, trainer management, and trainee bookings. The system enforces strict business rules and role-based access using JWT authentication.
+## Project Overview
+The **Gym Class Scheduling and Membership Management System** is designed to efficiently manage gym operations. This system defines three roles: **Admin, Trainer, and Trainee**, each with specific permissions.
 
----
+### Key Features:
+- **Admin:**
+  - Create and manage trainers.
+  - Schedule up to 5 classes per day.
+  - Assign trainers to schedules.
+- **Trainer:**
+  - View assigned class schedules.
+  - Cannot create new schedules or manage trainee profiles.
+- **Trainee:**
+  - Create and manage their profiles.
+  - Book available class schedules (max 10 trainees per class).
+  - Cancel their bookings if needed.
 
-## 🚀 Project Overview
+## Technology Stack
+- **Programming Language:** TypeScript
+- **Web Framework:** Express.js
+- **Database:** MongoDB (Mongoose)
+- **Authentication:** JWT (JSON Web Tokens)
+- **Architecture:** Modular pattern
 
-This system manages gym operations with three user roles:
 
-| Role    | Permissions |
-|--------|------------|
-| **Admin**   | Create trainers • Create schedules • Assign trainers              |
-| **Trainer** | View their assigned schedules                                  |
-| **Trainee** | Manage profile • Book classes • Cancel bookings                 |
 
-**Business Rules**
+## Live Deployed Link
+[Gym Management API Live](#) *([Provide the deployed server link here.]())*
 
-- Maximum **5 schedules per day**
-- Each class lasts **2 hours**
-- Maximum **10 trainees per class**
-- Trainee cannot book multiple classes in the same time slot
-- JWT authentication enforced on all protected routes
-
----
-
-## 🛠 Technology Stack
-
-| Layer          | Technology           |
-| -------------- | -------------------- |
-| Language       | TypeScript           |
-| Web Framework  | Express.js           |
-| Database       | MongoDB (Mongoose)   |
-| Authentication | JWT                  |
-| Architecture   | Modular              |
-
----
-
-## 🌐 Live Deployed Link
-
-**Gym Management API** → `<YOUR_DEPLOYED_URL>`
-
----
-
-## 🔑 Admin Credentials
-
-```json
+## Admin Credentials
+```
 {
   "email": "subahanislam523@gmail.com",
   "password": "S1234@"
 }
-✅ Admin Functionality
-🔹 Create Trainer
-Route: POST /api/user/create-trainer
+```
 
-Headers: Authorization: Bearer {"token"}
+## API Endpoints
 
-Body
+### 1. Crete Trainer
 
-json
-Copy
-Edit
+**POST**  `/api/user/create-trainer`
+**Headers**: `Authorization` : `Bearer {{admin-token}}`
+
+**Request Body:**
+
+```json
 {
-  "name": "Subahan",
-  "gender": "male",
-  "email": "subahan@example.com",
-  "contactNo": "+8801786727749",
-  "password": "12345678"
+    "name": "subahan",
+    "gender": "male",
+    "email": "subahan@example.com",
+    "contactNo": "+8801786727749",
+    "password":"12345678"
 }
-Response
+```
 
-json
-Copy
-Edit
+**Response:**
+```json
 {
-  "success": true,
-  "statusCode": 200,
-  "message": "Trainer is created successfully!",
-  "data": [ { "_id":"trainer_id_here", "name":"subahan", "email":"subahan@example.com" } ]
+    "success": true,
+    "statusCode": 200,
+    "message": "Trainer is created successfully!",
+    "data": [
+      {
+        "...data"
+      }
+    ]
 }
-🔹 Create Schedule
-Route: POST /api/admin/create-schedule
-Headers: Authorization: Bearer {"token"}
+```
 
-Body
+### 2. Crete Trainee
+**POST**  `/api/user/create-trainee`
+**Request Body:**
 
+```json
 {
-  "date": "17-08-2025",
-  "startTime": "04:00",
-  "endTime": "06:00",
-  "trainerId": "67b1dc78612d9e42d02ccefe",
-  "capacity": 10
+    "name": "rasel",
+    "gender": "male",
+    "email": "rasel@example.com",
+    "contactNo": "+8801310134801",
+    "password":"12345678"
 }
+```
 
-🔹 Get All Trainers
-Route: GET /api/trainer
-Headers: Authorization: Bearer {"token"}
+### 3. Login User
 
-Response
+**POST** `/api/auth/login`
 
+**Description:** Authenticates a user with their email and password and generates a JWT token.
+
+**Request Body:**
+
+```json
 {
-  "success": true,
-  "statusCode": 200,
-  "message": "All Trainer retrieved successfully",
-  "data": [
-    {
-      "_id": "trainer_id_here",
-      "name": "Rohan",
-      "email": "rohan@example.com",
-      "assignedClasses": []
+    "email": "john@example.com",
+    "password": "securepassword"
+}
+```
+
+**Response:**
+
+-   **Success (200):**
+
+```json
+{
+    "success": true,
+    "message": "Login successful",
+    "statusCode": 200,
+    "data": {
+        "token": "string"
     }
-  ]
 }
+```
 
 
-🧑‍🏫 Trainer Functionality
-🔹 View My Schedules
-Route: GET /api/trainer/my-schedules
-Headers: Authorization: Bearer {"token"}
+### 4 Create-Schedule
 
-Response
+**POST** `/api/admin/create-schedule`
 
+**Request Header:**`Authorization: Bearer <token>`
+
+**Request Body:**
+
+```json
 {
-  "success": true,
-  "statusCode": 200,
-  "message": "Schedules is retrieved successfully.",
-  "data": [
-    {
-      "_id":"schedule_id_here",
-      "date":"16-02-2025",
-      "startTime":"22:00",
-      "endTime":"24:00",
-      "trainerId": {
-        "_id":"trainer_id_here", "name":"subahan", "email":"subhan@example.com"
-      },
-      "capacity":10,
-      "trainees":[]
+    "date": "17-08-2025",
+    "startTime": "04:00",
+    "endTime": "06:00",
+    "trainerId": "68a33339af37cec93898fcb7",
+    "capacity": 10
+}
+```
+
+**Response:**
+
+-   **Success (201):**
+
+```json
+{
+    "success": true,
+    "statusCode": 201,
+    "message": "Schedule created successfully",
+    "data": {
+        "date": "16-02-2025",
+        "startTime": "08:00",
+        "endTime": "10:00",
+        "trainerId": "68a33339af37cec93898fcb7",
+        "capacity": 10,
+        "trainees": [],
+        "_id": "68a335a5af37cec93898fcc5",
+        "createdAt": "2025-08-17T13:13:36.987Z",
+        "updatedAt": "2025-08-17T13:13:36.987Z",
+        "__v": 0
     }
-  ]
 }
+```
+### 5 Get All Schedule
 
+**GET** `/api/schedule`
 
-👨‍🎓 Trainee Functionality
-🔹 Create Trainee
-Route: POST /api/user/create-trainee
-
-json
-Copy
-Edit
+**Request Header:**`Authorization: Bearer <token>`
+**Response:**
+```json
 {
-  "name": "Raju",
-  "gender": "male",
-  "email": "raju@example.com",
-  "contactNo": "+8801786727749",
-  "password": "12345678"
+    "success": true,
+    "statusCode": 200,
+    "message": "All schedules retrieved successfully",
+    "data": [
+        {
+            "_id": "67b2ec4e7112474d9f635429",
+            "date": "16-08-2025",
+            "startTime": "04:00",
+            "endTime": "06:00",
+            "trainerId": "67b1dc78612d9e42d02ccefe",
+            "capacity": 10,
+            "trainees": [
+                "67b2e96e7112474d9f635418"
+            ],
+            "createdAt": "2025-08-17T07:59:10.737Z",
+            "updatedAt": "2025-08-17T12:03:54.452Z",
+            "__v": 5
+        },
+    ]
 }
-🔹 Book a Class
-Route: POST /api/trainee/book-class
-Headers: Authorization: Bearer {"token"}
+```
+### 
+#### Trainer 
 
-json
-Copy
-Edit
+**GET** `/api/trainer/my-schedules`
+
+**Request Header:**`Authorization: Bearer <token>`
+
+**Response:**
+```json
 {
-  "classScheduleId": "67b2ec4e7112474d9f635429"
+    "success": true,
+    "statusCode": 200,
+    "message": "Schedules is retrieved successfully.",
+    "data": [
+        {
+            "_id": "67b3483ca7481e4be74ecbb2",
+            "date": "16-02-2025",
+            "startTime": "22:00",
+            "endTime": "24:00",
+            "trainerId": {
+                "_id": "67b346eda7481e4be74ecb92",
+                "name": "subhan",
+                "email": "subahan@example.com",
+                "id": "67b346eda7481e4be74ecb94"
+            },
+            "capacity": 10,
+            "trainees": [],
+        }
+    ]
 }
-🔹 Cancel a Booking
-Route: POST /api/trainee/cancel-booking
-Headers: Authorization: Bearer {"token"}
+```
+### 5 Get All Trainer
 
+**GET** `/api/trainer`
+
+**Request Header:**`Authorization: Bearer <admin-token>`
+**Response:**
+```json
 {
-  "classScheduleId": "67b2ec4e7112474d9f635429"
+    "success": true,
+    "statusCode": 200,
+    "message": "All Trainer retrieved successfully",
+    "data": [
+        {
+            "_id": "67b2e8573321399c707fd4ea",
+            "user": "67b2e8573321399c707fd4e5",
+            "name": "Rohan",
+            "gender": "male",
+            "email": "rohan@example.com",
+            "contactNo": "+8801786727749",
+            "assignedClasses": [],
+            "createdAt": "2025-08-17T07:42:15.768Z",
+            "updatedAt": "2025-08-17T07:42:15.768Z",
+            "__v": 0,
+            "id": "67b2e8573321399c707fd4ea"
+        },
+    ]
 }
-🔐 Login (All Users)
-Route: POST /api/auth/login
+```
+### Trainee
+#### Book a Class Schedule 
 
+**POST** `/api/trainee/book-class`
+
+**Request Header:**`Authorization: Bearer <token>`
+
+**Request Body:**
+
+```json
+ {
+     "classScheduleId":"67b2ec4e7112474d9f635429"
+ }
+```
+**Response:**
+```json
 {
-  "email": "john@example.com",
-  "password": "securepassword"
+    "success": true,
+    "statusCode": 200,
+    "message": "Class booked successfully",
+    "data": {
+        "_id": "67b3360024f9a1f58f050345",
+        "date": "16-08-2025",
+        "startTime": "08:00",
+        "endTime": "10:00",
+        "trainerId": null,
+        "capacity": 10,
+        "trainees": [
+            "67b2e96e7112474d9f635418"
+        ],
+        "createdAt": "2025-08-17T13:13:36.987Z",
+        "updatedAt": "2025-08-17T14:39:58.014Z",
+        "__v": 1
+    }
 }
+```
+#### Cancel Booking
 
-Response
+**POST** `/api/trainee/cancel-booking`
 
+**Request Header:**`Authorization: Bearer <token>`
 
+**Request Body:**
+
+```json
+ {
+     "classScheduleId":"67b2ec4e7112474d9f635429"
+ }
+```
+**Response:**
+```json
 {
-  "success": true,
-  "message": "Login successful",
-  "statusCode": 200,
-  "data": { "token": "jwt_token_here" }
+    "success": true,
+    "statusCode": 200,
+    "message": "Booking canceled successfully",
+    "data": {
+        "_id": "67b3360024f9a1f58f050345",
+        "date": "16-08-2025",
+        "startTime": "08:00",
+        "endTime": "10:00",
+        "trainerId": "68a33339af37cec93898fcb7",
+        "capacity": 10,
+        "trainees": [],
+        "createdAt": "2025-08-17T13:13:36.987Z",
+        "updatedAt": "2025-08-17T14:41:29.489Z",
+        "__v": 2
+    }
 }
+```
+## Database Schema
+```js
+const AdminSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  password: String,
+  role: { type: String, default: 'admin' }
+});
 
-⚙️ Setup Instructions
-✅ Prerequisites
-Node.js (v16+)
+const TrainerSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  password: String,
+  assignedSchedules: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Schedule' }]
+});
 
-MongoDB (Local or Remote)
+const TraineeSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  password: String,
+  assignedClasses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Schedule' }]
+});
 
-✅ Setup Steps
+const ScheduleSchema = new mongoose.Schema({
+  date: Date,
+  timeSlot: String,
+  trainer: { type: mongoose.Schema.Types.ObjectId, ref: 'Trainer' },
+  trainees: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Trainee' }],
+  maxTrainees: { type: Number, default: 10 }
+});
+```
 
-# 1. Clone the repository
-git clone https://github.com/Subahan-1D/gym-management-backend.git
-cd gym-management-backend
 
-# 2. Install dependencies
+### Setup Instructions
+
+#### Prerequisites
+
+
+**1. Clone the Repository**
+
+```bash
+git https://github.com/Subahan-1D/gym-management-backend.git
+cd Gym-Management
+```
+
+**2. Install Dependencies**
+
+```bash
 npm install
 npm run build
+```
 
+**3. Configure Environment Variables**
+`Create` **`.env`** `file in the root directory and add the following variables:`
 
-3. Configure .env file
-
-MONGODB_URI=mongodb://localhost:27017/gym-management
+```bash
+MONGODB_URI=mongodb://localhost:27017/gym management
 PORT=5000
-JWT_ACCESS_SECRET=access_secret_subahan1
-BCRYPT_SALT_ROUNDS=10
-NODE_ENV=development
+JWT_SECRET= subahan_ali_secrect_0
+BCRYPT_SALT_ROUNDS= set your BCRYPT_SALT_ROUNDS
+NODE_ENV='development'
+```
 
-# 4. Start the application
+**4. Start the Application**
+
+```bash
 npm run dev
+```
+
+---
+
+## Testing Instructions
+1. **Admin Testing:**
+   - Login with the provided admin credentials.
+   - Create a trainer and assign schedules.
+2. **Trainer Testing:**
+   - View assigned schedules.
+3. **Trainee Testing:**
+   - Register as a trainee.
+   - Book a class if slots are available.
+   - Attempt to book an already full class to test error handling.
+
+## Error Handling
+### Sample Responses:
+**Validation Errors:**
+```json
+{
+    "success": false,
+    "message": "Validation error occurred.",
+    "errorDetails": {
+        "field": "email",
+        "message": "Invalid email format."
+    }
+}
+```
+**Unauthorized Access:**
+```json
+{
+    "success": false,
+    "message": "Unauthorized access.",
+    "errorDetails": "You must be an admin to perform this action."
+}
+```
+**Booking Limit Exceeded:**
+```json
+{
+    "success": false,
+    "message": "Class schedule is full. Maximum 10 trainees allowed per schedule."
+}
+```
