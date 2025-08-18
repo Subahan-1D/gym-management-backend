@@ -1,10 +1,11 @@
 import express from 'express';
+import authCheck from '../../middlewares/authCheck';
 import { ScheduleController } from './classSchedule.controller';
-import auth from '../../Middleware/auth';
+
 
 const router = express.Router();
 
-router.get('/', auth("admin"), ScheduleController.getAllSchedule);
+router.get('/',authCheck("admin"), ScheduleController.getAllSchedule);
 
 
 export const ScheduleRouter = router;

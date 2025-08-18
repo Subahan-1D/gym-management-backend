@@ -4,8 +4,10 @@ import httpStatus from 'http-status-codes';
 import { User } from "./user.model";
 import mongoose from "mongoose";
 import { TUser } from "./user.interface";
-import { Trainee } from "../Trainee/trainee.model";
-import { TTrainee } from "../Trainee/trainee.interface";
+import { TTrainer } from "../trainner/trainer.interface";
+import { Trainer } from "../trainner/trainer.model";
+import { TTrainee } from "../trainee/trainee.interface";
+import { Trainee } from "../trainee/trainee.model";
 
 
 const  createTraineeService = async (payload: TTrainee) => {

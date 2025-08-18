@@ -1,7 +1,9 @@
 import { UserControllers } from "./user.controler";
-import { TraineeValidations } from "../Trainee/trainee.validation";
+import { TraineeValidations } from "../trainee/trainee.validation";
 import validateRequest from "../../middlewares/validateRequest";
 import express from "express";
+import authCheck from "../../middlewares/authCheck";
+import { TrainerValidations } from "../trainner/trainner.validatoin";
 
 const router = express.Router();
 
@@ -11,8 +13,8 @@ router.post(
   UserControllers.createTrainee
 );
 router.post(
-    '/crete-trainer',
-    auth('admin'),
+    '/create-trainer',
+    authCheck('admin'),
     validateRequest(TrainerValidations.createsTrainerValidationSchema),
     UserControllers.createTrainer
 );

@@ -18,7 +18,7 @@ const createTrainee: RequestHandler = catchAsync(async (req, res) => {
 const createTrainer: RequestHandler = catchAsync(async (req, res) => {
     const trainerData = req.body;
 
-    const result = await UserServices.createTrainerIntoDB(trainerData);
+    const result = await UserServices.createTrainerService(trainerData);
     sendResponse(res, {
         statusCode: StatusCodes.OK,
         success: true,

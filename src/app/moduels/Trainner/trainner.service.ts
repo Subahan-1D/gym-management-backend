@@ -1,7 +1,7 @@
 
-import { Trainer } from './trainer.model';
 import AppError from '../../errorHelpers/AppError';
 import httpStatus from 'http-status-codes';
+import { Trainer } from './trainer.model';
 
 const getAllTrainerFromDB = async (query: Record<string, unknown>) => {
     const result = await Trainer.find(query); 

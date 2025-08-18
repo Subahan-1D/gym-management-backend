@@ -1,23 +1,23 @@
 import express from 'express';
-import auth from '../../Middleware/auth';
-import { TraineeControllers } from './trainee.controller';
-import validateRequest from '../../Middleware/validateRequest';
 import { TraineeValidations } from './trainee.validation';
+import authCheck from '../../middlewares/authCheck';
+import validateRequest from '../../middlewares/validateRequest';
+import { TraineeControllers } from './trainee.controllers';
 
 const router = express.Router();
 
 router.post(
     '/book-class',
-    // auth('trainee'),
-    // validateRequest(TraineeValidations.bookClassScheduleValidationSchema),
-    // TraineeControllers.bookClassSchedule
+    authCheck('trainee'),
+    validateRequest(TraineeValidations.bookClassScheduleValidationSchema),
+    TraineeControllers.bookClassSchedule
 );
 
 router.delete(
     '/cancel-booking',
-    // auth('trainee'),
-    // TraineeControllers.cancelBooking
+    authCheck('trainee'),
+    TraineeControllers.cancelBooking
 );
 
-router.get('/', auth('admin'), TraineeControllers.getAllTrainee);
+router.get('/', authCheck('admin'), TraineeControllers.getAllTrainee);
 export const TraineeRouter = router;
