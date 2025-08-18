@@ -15,7 +15,7 @@ export interface CustomRequest extends Request {
 const authCheck = (...requiredRoles: TUserRole[]) => {
     return catchAsync(
         async (req: Request, res: Response, next: NextFunction) => {
-            const token = req.headers.authorization?.split(' ')[1];
+            const token = req.headers.authorization;
             // if the token is sent from the client
             if (!token) {
                 throw new AppError(
