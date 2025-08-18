@@ -8,19 +8,18 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const loadEnvVariables = () => {
     const requiredEnvVariables = [
-        "port",
-        "mongodb_uri",
+        "MONGODB_URI",
         "node_env",
         "BCRYPT_SALT_ROUND",
         "JWT_ACCESS_SECRET",
-    ];
+    ]; // port removed
     requiredEnvVariables.forEach((key) => {
         if (!process.env[key]) {
             throw new Error(`Missing required environment variable ${key}`);
         }
     });
     return {
-        port: process.env.PORT,
+        port: process.env.PORT || "8000", // fallback for Vercel
         mongodb_uri: process.env.MONGODB_URI,
         node_env: process.env.NODE_ENV,
         BCRYPT_SALT_ROUND: process.env.BCRYPT_SALT_ROUND,
